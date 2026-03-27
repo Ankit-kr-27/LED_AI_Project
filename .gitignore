@@ -1,0 +1,28 @@
+# 🔹 Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# 🔹 Virtual environment (VERY IMPORTANT)
+.venv/
+venv/
+env/
+
+# 🔹 OS files
+.DS_Store
+Thumbs.db
+
+# 🔹 VS Code settings
+.vscode/
+
+# 🔹 Jupyter (if you ever use)
+.ipynb_checkpoints/
+
+# 🔹 Logs
+*.log
+
+# 🔹 Temporary files
+*.tmp
+
+# 🔹 Optional (uncomment if file becomes too large)
+ led_data.csv
