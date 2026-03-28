@@ -3,52 +3,63 @@ import random
 
 data = []
 
-for _ in range(800):  # increased data size
-    # ---- Generate base values ----
+for _ in range(2000):
     temp = round(random.uniform(20, 70), 2)
     hum = round(random.uniform(30, 80), 2)
     ldr = random.randint(0, 4095)
     current = random.randint(0, 4000)
 
-    # ---- Add sensor noise ----
-    temp += random.uniform(-2, 2)
-    ldr += random.randint(-100, 100)
-    current += random.randint(-200, 200)
+    # ---- Strong AI-based risk logic ----
+    risk = 0
 
-    # keep values in valid range
-    ldr = max(0, min(4095, ldr))
-    current = max(0, min(4000, current))
+    # Temperature
+    if temp > 65:
+        risk += 0.7
+    elif temp > 55:
+        risk += 0.5
+    elif temp > 48:
+        risk += 0.3
 
-    # ---- Fuzzy logic (IMPORTANT) ----
-    if temp > 55:
-        label = "overheat"
+    # Light
+    if ldr < 600:
+        risk += 0.5
+    elif ldr < 1000:
+        risk += 0.3
 
-    elif 48 < temp <= 55:
-        label = random.choice(["overheat", "normal"])  # borderline
+    # Current
+    if current > 3500:
+        risk += 0.5
+    elif current > 3000:
+        risk += 0.3
 
-    elif ldr < 800:
-        label = "dim"
+    # 🔥 Combination effects (AI strength)
+    if temp > 50 and ldr < 1000:
+        risk += 0.3
 
-    elif 800 <= ldr < 1200:
-        label = random.choice(["dim", "normal"])  # borderline
+    if temp > 50 and current > 3000:
+        risk += 0.3
 
-    elif current > 3200:
-        label = "overcurrent"
+    if ldr < 800 and current > 3000:
+        risk += 0.3
 
-    elif 2800 < current <= 3200:
-        label = random.choice(["overcurrent", "normal"])  # borderline
+    risk = min(1.0, risk)
 
+    # ---- Labeling ----
+    if risk >= 0.7:
+        label = "fault"
+    elif risk >= 0.3:
+        label = "warning"
     else:
         label = "normal"
 
     data.append([temp, hum, ldr, current, label])
 
-# ---- Create DataFrame ----
+# Create DataFrame
 df = pd.DataFrame(data, columns=[
     "Temperature", "Humidity", "LDR", "Current", "Label"
 ])
 
-# ---- Save CSV ----
 df.to_csv("led_data.csv", index=False)
 
-print("Improved dataset created!")
+print("Dataset created!")
+print("Total rows:", len(df))
