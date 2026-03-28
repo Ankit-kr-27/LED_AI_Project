@@ -25,4 +25,4 @@ Thumbs.db
 *.tmp
 
 # 🔹 Optional (uncomment if file becomes too large)
- led_data.csv
+.led_data.csv
